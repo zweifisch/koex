@@ -5,17 +5,18 @@ knockout custom bindings
 
 * href
 * src
+* drag
 * drop
-* number
-* number {value: value, digit: 2}
 * bignum
-* bignum {value: value, digit: 2}
 * longtext
+* dropfiles
 * filesize
 * progress
 * date
 * datetime
-* translate {src: value, dic: value}
+* toggle
+* stopBinding
+* disabled
 
 ## install
 
