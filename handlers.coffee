@@ -5,29 +5,30 @@ handlers = (ko)->
 	format = (template, vars)->
 		template.replace /\{([^}]+)\}/g, (key)-> vars[key]
 
-	{dataFor, unwrap, bindingHandlers, extend} = ko
-	{setTextContent, registerEventHandler} = ko.utils
+	{dataFor, unwrap, bindingHandlers} = ko
+	{setTextContent, registerEventHandler, extend} = ko.utils
 
 	extend bindingHandlers,
 
 		bignum:
 			# bignum: 10000
 			update: (el, valueAccessor)->
-				el.innerHTML = unwrap(valueAccessor()).toFixed(2).replace /\B(?=(\d{3})+(?!\d))/g, ','
+				num = unwrap valueAccessor()
+				el.innerHTML = num.toFixed(2).replace /\B(?=(\d{3})+(?!\d))/g, ','
 
 		date:
 			# date: unix-timestamp
 			update: (element, valueAccessor)->
 				d = new Date unwrap(valueAccessor()) * 1000
-				[year, month, date] = [if x < 10 then "0#{x}" else x for x in [d.getFullYear(), d.getMonth() + 1, d.getDate()]]
-				element.innserHTML = "#{year}-#{month}-#{date}"
+				[year, month, day] = ((if x < 10 then "0#{x}" else x) for x in [d.getFullYear(), d.getMonth() + 1, d.getDate()])
+				element.innerHTML = "#{year}-#{month}-#{day}"
 
 		datetime:
 			# datetime: unix-timestamp
 			update: (element, valueAccessor)->
 				d = new Date unwrap(valueAccessor()) * 1000
-				[year, month, date, hour, minute, second] = [if x < 10 then "0#{x}" else x for x in [d.getFullYear(), d.getMonth() + 1, d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds()]]
-				element.innerHTML = "#{year}-#{month}-#{date} #{hour}:#{minute}:#{second}"
+				[year, month, day, hour, minute, second] = ((if x < 10 then "0#{x}" else x) for x in [d.getFullYear(), d.getMonth() + 1, d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds()])
+				element.innerHTML = "#{year}-#{month}-#{day} #{hour}:#{minute}:#{second}"
 
 		disabled:
 			# disabled: true
@@ -99,13 +100,13 @@ handlers = (ko)->
 		filesize:
 			# filesize: size
 			update: (element, valueAccessor)->
-				value = unwrap valueAccessor()
+				value = parseInt (unwrap valueAccessor()), 10
 				units = ['','K','M','G','T']
 				unit = 0
-				while value > 1024 and unit < units.length - 1
+				while value >= 1024 and unit < units.length - 1
 					value = value / 1024
 					unit += 1
-				element.innerHTML = "#{value.toFixed 2} #{units[unit]}"
+				element.innerHTML = if unit then "#{value.toFixed 2} #{units[unit]}" else value
 
 		longtext:
 			# longtext: string
