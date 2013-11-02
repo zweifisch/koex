@@ -1,44 +1,44 @@
 
-# knockout handlers
+# koex
 
-knockout custom bindings
+knockout extensions: custom bindings and extenders
+
+## handlers
 
 * href
 * src
-* drag
-* drop
 * bignum
-* longtext
-* dropfiles
 * filesize
-* progress
 * date
 * datetime
+
+TBD
+
 * toggle
 * stopBinding
 * disabled
+* dropfiles
+* drag
+* drop
+* longtext
+
+## extenders
+
+TBD
 
 ## install
 
-good old way:
+the good old way:
 
 ```
 <script href="ko.js"></script>
-<script href="knockout-handlers.js"></script>
+<script href="koex.js"></script>
 ```
 
-AMD way:
+the AMD way:
 
 ```
-require(['konockout', knockout-handlers.js'], function(ko, kohs){
-	kohs(ko);
+require(['konockout', 'koex.js'], function(ko, koex){
+	koex(ko);
 });
-```
-
-## build
-
-```
-npm install -g grunt-cli
-npm install
-grunt build
 ```
